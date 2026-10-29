@@ -1,77 +1,93 @@
 
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  increaseQuantity,
-  decreaseQuantity,
-  removeFromCart,
-} from '../redux/CartSlice';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { removeItem, updateQuantity } from "../redux/CartSlice";
 
-function CartItem({ onContinueShopping }) {
+function CartItem({ onNavigate }) {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.cart.items);
-  const [checkoutMessage, setCheckoutMessage] = useState('');
+  const cartItems = useSelector((state) => state.cart.items);
 
-  const totalItems = items.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
+  const handleIncrement = (item) => {
+    dispatch(
+      updateQuantity({
+        name: item.name,
+        quantity: item.quantity + 1,
+      })
+    );
+  };
 
-  const totalAmount = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+  const handleDecrement = (item) => {
+    dispatch(
+      updateQuantity({
+        name: item.name,
+        quantity: item.quantity - 1,
+      })
+    );
+  };
+
+  const handleContinueShopping = () => {
+    onNavigate("plants");
+  };
+
+  const totalAmount = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
     0
   );
 
   return (
-    <main className="cart-page">
-      <h1>Your Shopping Cart</h1>
-
-      {items.length === 0 ? (
-        <div className="empty-cart">
-          <h2>Your cart is empty!</h2>
-          <p>There are plenty of beautiful plants waiting for you.</p>
-          <button
-            className="primary-button"
-            onClick={onContinueShopping}
-          >
-            Continue Shopping
+    <div>
+      <nav className="navbar">
+        <h2>Paradise Nursery</h2>
+        <div className="nav-links">
+          <button onClick={() => onNavigate("home")}>Home</button>
+          <button onClick={handleContinueShopping}>Plants</button>
+          <button onClick={() => onNavigate("cart")}>
+            🛒 Cart (
+            {cartItems.reduce((total, item) => total + item.quantity, 0)})
           </button>
         </div>
-      ) : (
-        <>
-          <p className="cart-summary">
-            You have {totalItems} item(s) in your cart.
-          </p>
+      </nav>
 
-          <div className="cart-list">
-            {items.map((item) => (
-              <article className="cart-row" key={item.id}>
-                <img
-                  src={`https://images.unsplash.com/${item.image}?auto=format&fit=crop&w=300&q=80`}
-                  alt={item.name}
-                />
+      <main className="cart-page">
+        <h1>Shopping Cart</h1>
 
-                <div className="cart-product-details">
+        {cartItems.length === 0 ? (
+          <div className="empty-cart">
+            <p>Your cart is empty.</p>
+            <button
+              className="get-started-button"
+              onClick={handleContinueShopping}
+            >
+              Continue Shopping
+            </button>
+          </div>
+        ) : (
+          <div className="cart-container">
+            {cartItems.map((item) => (
+              <div className="cart-item" key={item.id || item.name}>
+                <img src={item.image} alt={item.name} />
+
+                <div className="cart-item-details">
                   <h3>{item.name}</h3>
-                  <p>Unit price: ₹{item.price}</p>
+                  <p>Unit Price: ${item.price.toFixed(2)}</p>
                   <p>
-                    Item total: ₹{item.price * item.quantity}
+                    Item Total: ${(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
 
                 <div className="quantity-controls">
                   <button
+                    onClick={() => handleDecrement(item)}
                     aria-label={`Decrease ${item.name} quantity`}
-                    onClick={() => dispatch(decreaseQuantity(item.id))}
                   >
-                    −
+                    -
                   </button>
 
                   <span>{item.quantity}</span>
 
                   <button
+                    onClick={() => handleIncrement(item)}
                     aria-label={`Increase ${item.name} quantity`}
-                    onClick={() => dispatch(increaseQuantity(item.id))}
                   >
                     +
                   </button>
@@ -79,42 +95,34 @@ function CartItem({ onContinueShopping }) {
 
                 <button
                   className="delete-button"
-                  onClick={() => dispatch(removeFromCart(item.id))}
+                  onClick={() => dispatch(removeItem(item.name))}
                 >
                   Delete
                 </button>
-              </article>
+              </div>
             ))}
-          </div>
 
-          <div className="cart-total">
-            <h2>Total: ₹{totalAmount}</h2>
-
-            <div className="cart-actions">
-              <button
-                className="secondary-button"
-                onClick={onContinueShopping}
-              >
-                Continue Shopping
-              </button>
+            <div className="cart-total">
+              <h2>Total: ${totalAmount.toFixed(2)}</h2>
 
               <button
-                className="primary-button"
-                onClick={() => setCheckoutMessage('Coming Soon!')}
+                className="checkout-button"
+                onClick={() => alert("Coming Soon!")}
               >
                 Checkout
               </button>
-            </div>
 
-            {checkoutMessage && (
-              <p className="checkout-message" role="status">
-                {checkoutMessage}
-              </p>
-            )}
+              <button
+                className="get-started-button"
+                onClick={handleContinueShopping}
+              >
+                Continue Shopping
+              </button>
+            </div>
           </div>
-        </>
-      )}
-    </main>
+        )}
+      </main>
+    </div>
   );
 }
 

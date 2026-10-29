@@ -1,206 +1,195 @@
 
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../redux/CartSlice';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../redux/CartSlice";
 
-const products = [
+const plants = [
   {
     id: 1,
-    name: 'Snake Plant',
-    category: 'Air Purifying Plants',
-    price: 299,
-    image: 'photo-1501004318641-b39e6451bec6',
-    description: 'A hardy plant that adds a fresh touch to your home.',
+    name: "Snake Plant",
+    price: 15,
+    category: "Air Purifying Plants",
+    image: "https://images.unsplash.com/photo-1593482892290-f54927ae2b5c?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 2,
-    name: 'Peace Lily',
-    category: 'Air Purifying Plants',
-    price: 399,
-    image: 'photo-1593691509543-c55fb32e5cee',
-    description: 'An elegant plant with beautiful green foliage.',
+    name: "Peace Lily",
+    price: 18,
+    category: "Air Purifying Plants",
+    image: "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 3,
-    name: 'Spider Plant',
-    category: 'Air Purifying Plants',
-    price: 249,
-    image: 'photo-1459156212016-c812468e2115',
-    description: 'A cheerful plant suitable for bright indoor spaces.',
+    name: "Spider Plant",
+    price: 12,
+    category: "Air Purifying Plants",
+    image: "https://images.unsplash.com/photo-1572688484438-313a6e50c333?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 4,
-    name: 'Areca Palm',
-    category: 'Air Purifying Plants',
-    price: 499,
-    image: 'photo-1512428813834-c702c7702b78',
-    description: 'Bring a tropical feel to your living room.',
+    name: "Areca Palm",
+    price: 22,
+    category: "Air Purifying Plants",
+    image: "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 5,
-    name: 'Boston Fern',
-    category: 'Air Purifying Plants',
-    price: 349,
-    image: 'photo-1497250681960-ef046c08a56e',
-    description: 'Lush foliage for a refreshing indoor corner.',
+    name: "Rubber Plant",
+    price: 20,
+    category: "Air Purifying Plants",
+    image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 6,
-    name: 'Rubber Plant',
-    category: 'Air Purifying Plants',
-    price: 449,
-    image: 'photo-1509423350716-97f9360b4e09',
-    description: 'Glossy leaves make this plant a striking choice.',
+    name: "Boston Fern",
+    price: 16,
+    category: "Air Purifying Plants",
+    image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 7,
-    name: 'Monstera',
-    category: 'Decorative Plants',
-    price: 599,
-    image: 'photo-1614594975525-e45190c55d0b',
-    description: 'Iconic split leaves for a modern interior.',
+    name: "Monstera",
+    price: 25,
+    category: "Decorative Plants",
+    image: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 8,
-    name: 'Calathea',
-    category: 'Decorative Plants',
-    price: 449,
-    image: 'photo-1509423350716-97f9360b4e09',
-    description: 'Decorative foliage that adds visual interest.',
+    name: "Fiddle Leaf Fig",
+    price: 30,
+    category: "Decorative Plants",
+    image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 9,
-    name: 'Fiddle Leaf Fig',
-    category: 'Decorative Plants',
-    price: 799,
-    image: 'photo-1501004318641-b39e6451bec6',
-    description: 'A bold statement plant for larger rooms.',
+    name: "Calathea",
+    price: 24,
+    category: "Decorative Plants",
+    image: "https://images.unsplash.com/photo-1597055181300-df0c6f0d9e3b?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 10,
-    name: 'Philodendron',
-    category: 'Decorative Plants',
-    price: 349,
-    image: 'photo-1497250681960-ef046c08a56e',
-    description: 'Beautiful trailing foliage for shelves.',
+    name: "Dracaena",
+    price: 19,
+    category: "Decorative Plants",
+    image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 11,
-    name: 'Chinese Money Plant',
-    category: 'Decorative Plants',
-    price: 399,
-    image: 'photo-1485955900006-10f4d324d411',
-    description: 'Distinctive round leaves with a playful look.',
+    name: "ZZ Plant",
+    price: 21,
+    category: "Decorative Plants",
+    image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 12,
-    name: 'Bird of Paradise',
-    category: 'Decorative Plants',
-    price: 899,
-    image: 'photo-1518531933037-91b2f5f229cc',
-    description: 'A tropical focal point with dramatic leaves.',
+    name: "Pothos",
+    price: 14,
+    category: "Decorative Plants",
+    image: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 13,
-    name: 'Aloe Vera',
-    category: 'Succulents and Cacti',
-    price: 199,
-    image: 'photo-1509423350716-97f9360b4e09',
-    description: 'A low-maintenance succulent for sunny spaces.',
+    name: "Aloe Vera",
+    price: 10,
+    category: "Succulents and Cacti",
+    image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 14,
-    name: 'Jade Plant',
-    category: 'Succulents and Cacti',
-    price: 249,
-    image: 'photo-1485955900006-10f4d324d411',
-    description: 'A compact succulent with thick rounded leaves.',
+    name: "Echeveria",
+    price: 11,
+    category: "Succulents and Cacti",
+    image: "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 15,
-    name: 'Echeveria',
-    category: 'Succulents and Cacti',
-    price: 179,
-    image: 'photo-1459411552884-841db9b3cc2a',
-    description: 'A rosette-shaped succulent for small spaces.',
+    name: "Jade Plant",
+    price: 13,
+    category: "Succulents and Cacti",
+    image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 16,
-    name: 'Haworthia',
-    category: 'Succulents and Cacti',
-    price: 199,
-    image: 'photo-1501004318641-b39e6451bec6',
-    description: 'A small succulent with striking patterned leaves.',
+    name: "Barrel Cactus",
+    price: 12,
+    category: "Succulents and Cacti",
+    image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 17,
-    name: 'Golden Barrel Cactus',
-    category: 'Succulents and Cacti',
-    price: 299,
-    image: 'photo-1459411552884-841db9b3cc2a',
-    description: 'A sculptural cactus that suits sunny windowsills.',
+    name: "Haworthia",
+    price: 14,
+    category: "Succulents and Cacti",
+    image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=500&q=80",
   },
   {
     id: 18,
-    name: 'String of Pearls',
-    category: 'Succulents and Cacti',
-    price: 329,
-    image: 'photo-1497250681960-ef046c08a56e',
-    description: 'Trailing bead-like foliage for hanging planters.',
+    name: "String of Pearls",
+    price: 17,
+    category: "Succulents and Cacti",
+    image: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=500&q=80",
   },
 ];
 
-function ProductList() {
+function ProductList({ onNavigate }) {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
 
-  const categories = [...new Set(products.map((p) => p.category))];
+  const addedToCart = {};
+  cartItems.forEach((item) => {
+    addedToCart[item.name] = true;
+  });
+
+  const categories = [
+    "Air Purifying Plants",
+    "Decorative Plants",
+    "Succulents and Cacti",
+  ];
 
   return (
-    <main className="products-page">
-      <header className="page-heading">
+    <div>
+      <nav className="navbar">
+        <h2>Paradise Nursery</h2>
+        <div className="nav-links">
+          <button onClick={() => onNavigate("home")}>Home</button>
+          <button onClick={() => onNavigate("plants")}>Plants</button>
+          <button onClick={() => onNavigate("cart")}>
+            🛒 Cart ({cartItems.reduce((total, item) => total + item.quantity, 0)})
+          </button>
+        </div>
+      </nav>
+
+      <main className="product-page">
         <h1>Our Plants</h1>
-        <p>Find the perfect green companion for your space.</p>
-      </header>
 
-      {categories.map((category) => (
-        <section className="plant-category" key={category}>
-          <h2>{category}</h2>
+        {categories.map((category) => (
+          <section key={category} className="plant-category">
+            <h2>{category}</h2>
 
-          <div className="product-grid">
-            {products
-              .filter((plant) => plant.category === category)
-              .map((plant) => {
-                const isAdded = cartItems.some(
-                  (item) => item.id === plant.id
-                );
-
-                return (
+            <div className="product-grid">
+              {plants
+                .filter((plant) => plant.category === category)
+                .map((plant) => (
                   <article className="product-card" key={plant.id}>
-                    <img
-                      src={`https://images.unsplash.com/${plant.image}?auto=format&fit=crop&w=600&q=80`}
-                      alt={plant.name}
-                    />
+                    <img src={plant.image} alt={plant.name} />
+                    <h3>{plant.name}</h3>
+                    <p>${plant.price.toFixed(2)}</p>
 
-                    <div className="product-info">
-                      <h3>{plant.name}</h3>
-                      <p>{plant.description}</p>
-                      <strong>₹{plant.price}</strong>
-
-                      <button
-                        className="primary-button add-button"
-                        disabled={isAdded}
-                        onClick={() => dispatch(addToCart(plant))}
-                      >
-                        {isAdded ? 'Added to Cart' : 'Add to Cart'}
-                      </button>
-                    </div>
+                    <button
+                      className="add-to-cart-button"
+                      disabled={addedToCart[plant.name]}
+                      onClick={() => dispatch(addItem(plant))}
+                    >
+                      {addedToCart[plant.name] ? "Added to Cart" : "Add to Cart"}
+                    </button>
                   </article>
-                );
-              })}
-          </div>
-        </section>
-      ))}
-    </main>
+                ))}
+            </div>
+          </section>
+        ))}
+      </main>
+    </div>
   );
 }
 

@@ -1,89 +1,67 @@
 
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import './App.css';
-import AboutUs from './components/AboutUs';
-import ProductList from './components/ProductList';
-import CartItem from './components/CartItem';
+import React, { useState } from "react";
+import ProductList from "./components/ProductList";
+import CartItem from "./components/CartItem";
+import AboutUs from "./components/AboutUs";
+import "./App.css";
 
 function App() {
-  const [page, setPage] = useState('home');
+  const [currentPage, setCurrentPage] = useState("home");
 
-  const cartItems = useSelector((state) => state.cart.items);
+  const handleNavigate = (page) => {
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
 
-  const cartCount = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  if (currentPage === "plants") {
+    return <ProductList onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === "cart") {
+    return <CartItem onNavigate={handleNavigate} />;
+  }
+
+  if (currentPage === "about") {
+    return (
+      <div>
+        <nav className="navbar">
+          <h2>Paradise Nursery</h2>
+          <div className="nav-links">
+            <button onClick={() => handleNavigate("home")}>Home</button>
+            <button onClick={() => handleNavigate("plants")}>Plants</button>
+            <button onClick={() => handleNavigate("cart")}>Cart</button>
+          </div>
+        </nav>
+        <AboutUs />
+      </div>
+    );
+  }
 
   return (
-    <div>
-      {page === 'home' ? (
-        <main className="landing-page">
-          <div className="landing-content">
-            <h1>Paradise Nursery</h1>
-            <p className="tagline">
-              Bring nature home, one plant at a time.
-            </p>
-            <p>
-              Discover beautiful indoor plants and create
-              your own little green paradise.
-            </p>
-            <button
-              className="primary-button"
-              onClick={() => setPage('plants')}
-            >
-              Get Started
-            </button>
-            <button
-              className="text-button"
-              onClick={() => setPage('about')}
-            >
-              About Us
-            </button>
-          </div>
-        </main>
-      ) : (
-        <>
-          <nav className="navbar">
-            <button
-              className="brand"
-              onClick={() => setPage('home')}
-            >
-              🌿 Paradise Nursery
-            </button>
+    <main className="landing-page">
+      <div className="landing-content">
+        <h1>Welcome to Paradise Nursery</h1>
+        <p>
+          Bring nature home with our beautiful collection of indoor plants.
+          Discover plants that brighten your space and make every corner feel
+          alive.
+        </p>
 
-            <div className="nav-links">
-              <button onClick={() => setPage('home')}>
-                Home
-              </button>
-              <button onClick={() => setPage('plants')}>
-                Plants
-              </button>
-              <button onClick={() => setPage('cart')}>
-                🛒 Cart ({cartCount})
-              </button>
-            </div>
-          </nav>
+        <button
+          className="get-started-button"
+          onClick={() => handleNavigate("plants")}
+        >
+          Get Started
+        </button>
 
-          {page === 'plants' && (
-            <ProductList
-              onContinueShopping={() => setPage('plants')}
-            />
-          )}
-
-          {page === 'cart' && (
-            <CartItem
-              onContinueShopping={() => setPage('plants')}
-            />
-          )}
-
-          {page === 'about' && (
-            <AboutUs />
-          )}
-        </>
-      )}
-    </div>
+        <button
+          className="about-button"
+          onClick={() => handleNavigate("about")}
+        >
+          About Us
+        </button>
+      </div>
+    </main>
   );
 }
 

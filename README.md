@@ -1,73 +1,41 @@
 
-# Paradise Nursery Shopping Application
+# e-plantShopping
 
-## About the Project
+## Paradise Nursery
 
-Paradise Nursery is a responsive React-based online plant
-shopping application. Users can browse indoor plants, add
-products to their cart, update quantities, remove products,
-and view their shopping total.
+Paradise Nursery is a plant shopping web application where users can explore indoor plants, add plants to their shopping cart, and manage quantities.
 
 ## Features
 
-- Landing page with a background image and Get Started button
-- About Us section
-- Three plant categories with six plants per category
-- Product names, images, descriptions, and prices
-- Add to Cart functionality with disabled buttons for added plants
-- Navigation between Home, Plants, and Cart
-- Dynamic shopping cart item count
-- Increase and decrease product quantities
-- Remove individual cart items
-- Automatic item totals and overall cart total
-- Checkout message displaying Coming Soon
-- Responsive layout for desktop and mobile devices
+- Welcome page with a Get Started button
+- Three plant categories with six plants in each category
+- Add plants to the shopping cart
+- Increase or decrease plant quantities
+- Remove plants from the cart
+- Automatically calculate the cart total
+- Responsive layout for different screen sizes
+- Home, Plants, and Cart navigation
 
 ## Technologies Used
 
 - React
 - JavaScript
-- HTML5
-- CSS3
+- CSS
 - Redux Toolkit
 - React Redux
-- Vite
-- Git and GitHub
 
-## Installation
+## Getting Started
 
-1. Clone or download this repository.
-2. Open the project directory in a terminal.
-3. Install dependencies:
+1. Clone this repository.
+2. Open the project folder in a terminal.
+3. Install the dependencies:
 
    ```bash
    npm install
    ```
 
-4. Start the development server:
+4. Start the application using the command supported by the project's package.json scripts.
 
-   ```bash
-   npm run dev
-   ```
+## Project
 
-5. Open the local URL displayed in the terminal.
-
-## Project Structure
-
-- `src/App.jsx` - Main application and page navigation
-- `src/App.css` - Styling and responsive layout
-- `src/components/AboutUs.jsx` - Company information
-- `src/components/ProductList.jsx` - Plant categories and product listing
-- `src/components/CartItem.jsx` - Shopping cart interface
-- `src/redux/CartSlice.jsx` - Shopping cart state management
-- `src/main.jsx` - React entry point and Redux store setup
-
-## Future Improvements
-
-- Persistent cart storage
-- Product search and filtering
-- User accounts and checkout integration
-
-## Author
-
-Akshita Verma
+This project demonstrates a basic online plant shopping experience using React and Redux for cart state management.
